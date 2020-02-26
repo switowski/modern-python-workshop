@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO App</title>
+    <!-- Add Bootstrap to our project (https://getbootstrap.com/) -->
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center">My TODO List</h1>
+      <div class="row justify-content-center">
+        <form class="form-inline" action="/task" method="post">
+          <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" placeholder="New item" name="body" />
+          </div>
+          <button type="submit" class="btn btn-primary mb-2">Add task</button>
+        </form>
+      </div>
+      <ul class="list-group">
+        {% for task in tasks %}
+        <li class="list-group-item {% if task.done %}list-group-item-secondary{% endif %}">
+          <div class="row justify-content-between">
+            <div class="my-2 mx-sm-3">
+              <span role="listitem">
+              {% if task.done %}<del>{% endif %}
+              {{ task.body }}
+              {% if task.done %}</del>{% endif %}
+              </span>
+            </div>
+            <div class="my-2 mx-sm-3">
+              {% if not task.done %}
+              <a class="btn btn-success" href="/done/{{ task.id }}" role="button">Done</a>
+              {% endif%}
+              <a class="btn btn-danger" href="/delete/{{ task.id }}" role="button">Delete</a>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
+
