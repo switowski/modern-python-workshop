@@ -1,6 +1,7 @@
 import pytest
 from flask import Flask
 from todo import db as _db
+from todo.views import simple_page
 
 
 @pytest.fixture
@@ -14,6 +15,7 @@ def test_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     app.config["TESTING"] = True
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    app.register_blueprint(simple_page)
 
     _db.init_app(app)
 
@@ -24,3 +26,8 @@ def test_app():
         # Our database is stored in memory so the following line is not needed
         # I'm using it to show you how to clean up after your tests
         _db.drop_all()
+
+
+@pytest.fixture()
+def client(test_app):
+    return test_app.test_client()

@@ -7,16 +7,13 @@ from todo import app, db
 """
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from todo.models import db
+from todo.views import simple_page
 
 # Set up Flask and sqlite database
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///todo.db"
 # The following line is needed to suppress SQLALCHEMY_TRACK_MODIFICATIONS warning
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-db = SQLAlchemy(app)
-
-# This import has to be AFTER the "app" and "db" setup!
-# Otherwise you will run into circular imports issues
-# Here is another idea how to deal with them:
-# https://stackoverflow.com/a/42910185
-from todo import views  # noqa E402 isort:skip
+app.register_blueprint(simple_page)
+db.init_app(app)

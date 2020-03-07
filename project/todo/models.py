@@ -1,6 +1,8 @@
 """Database models for our application."""
 
-from todo import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 class Task(db.Model):

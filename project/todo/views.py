@@ -1,11 +1,12 @@
 """URLs for our application."""
 
-from flask import redirect, render_template, request
-from todo import app
+from flask import Blueprint, redirect, render_template, request
 from todo.api import create_task, delete_task, finish_task, get_tasks
 
+simple_page = Blueprint("simple_page", __name__, template_folder="templates")
 
-@app.route("/")
+
+@simple_page.route("/")
 def tasks_list():
     """Main page of the application with the list of tasks."""
     tasks = get_tasks()
@@ -14,7 +15,7 @@ def tasks_list():
     return render_template("application.html", tasks=tasks)
 
 
-@app.route("/task", methods=["POST"])
+@simple_page.route("/task", methods=["POST"])
 def task_create():
     """Add a new Todo task."""
     body = request.form["body"]
@@ -26,7 +27,7 @@ def task_create():
     return redirect("/")
 
 
-@app.route("/delete/<int:task_id>")
+@simple_page.route("/delete/<int:task_id>")
 def task_delete(task_id):
     """Delete existing Todo task.
 
@@ -42,7 +43,7 @@ def task_delete(task_id):
     return redirect("/")
 
 
-@app.route("/done/<int:task_id>")
+@simple_page.route("/done/<int:task_id>")
 def task_done(task_id):
     """Mark Todo task as done.
 

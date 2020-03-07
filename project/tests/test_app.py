@@ -39,6 +39,7 @@ def test_delete_task(test_app):
     assert len(get_tasks()) == 0
 
 
+
 def test_finish_task(test_app):
     create_task("Get milk")
     assert len(get_tasks()) == 1
